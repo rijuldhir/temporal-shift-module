@@ -50,7 +50,8 @@ parser.add_argument('--num_set_segments',type=int, default=1,help='TODO: select 
 parser.add_argument('--pretrain', type=str, default='imagenet')
 
 args = parser.parse_args()
-
+with open('check.txt','w') as f:
+    f.write("Pred	Labels")
 
 class AverageMeter(object):
     """Computes and stores the average and current value"""
@@ -76,11 +77,13 @@ def accuracy(output, target, topk=(1,)):
     batch_size = target.size(0)
     _, pred = output.topk(maxk, 1, True, True)
     pred = pred.t()
+    with open('check.txt','a+') as f:
+        f.write(str(target.cpu().numpy())+str(pred.cpu().numpy())+'\n')
     correct = pred.eq(target.view(1, -1).expand_as(pred))
     res = []
     for k in topk:
-         correct_k = correct[:k].view(-1).float().sum(0)
-         res.append(correct_k.mul_(100.0 / batch_size))
+        correct_k = correct[:k].view(-1).float().sum(0)
+        res.append(correct_k.mul_(100.0 / batch_size))
     return res
 
 

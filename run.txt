@@ -1,0 +1,22 @@
+TO PREPROCESS
+Make .csv files from json first.
+train file id;label same as val
+label file label
+test file id
+extract frames using ffmpeg downloaded via source build
+
+run gen_label_somthingv2.py in tools (edit it as well)
+ths will make val_videofolder and train_videofolder and category.txt files which are used by training program main.py
+
+
+TO TRAIN
+
+
+TO TEST
+                      #dataset         #modality    #Path                                                                  
+python test_models.py somethingv2 --weights=pretrained/TSM_somethingv2_RGB_resnet50_shift8_blockres_avg_segment8_e45.pth --test_segments=8 --batch_size=1  --test_crops=1
+
+
+Pretrain run on gaila
+CUDA_VISIBLE_DEVICES=3                       #dataset         #modality    #Path                                                                
+python test_models.py somethingv2 --weights=pretrained/TSM_somethingv2_RGB_resnet50_shift8_blockres_avg_segment8_e45.pth --test_segments=8 --batch_size=16  --test_crops=1

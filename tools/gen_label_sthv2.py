@@ -11,11 +11,12 @@ import json
 
 if __name__ == '__main__':
     dataset_name = 'something-something-v2'  # 'jester-v1'
-    with open('%s-labels.json' % dataset_name) as f:
+    with open('../../dataset/%s-labels.json' % dataset_name) as f:
         data = json.load(f)
     categories = []
+    #print(data)
     for i, (cat, idx) in enumerate(data.items()):
-        assert i == int(idx)  # make sure the rank is right
+        assert i == int(idx)
         categories.append(cat)
 
     with open('category.txt', 'w') as f:
@@ -24,8 +25,8 @@ if __name__ == '__main__':
     dict_categories = {}
     for i, category in enumerate(categories):
         dict_categories[category] = i
-
-    files_input = ['%s-validation.json' % dataset_name, '%s-train.json' % dataset_name, '%s-test.json' % dataset_name]
+    print(dict_categories)
+    files_input = ['../../dataset/%s-validation.json' % dataset_name, '../../dataset/%s-train.json' % dataset_name, '../../dataset/%s-test.json' % dataset_name]
     files_output = ['val_videofolder.txt', 'train_videofolder.txt', 'test_videofolder.txt']
     for (filename_input, filename_output) in zip(files_input, files_output):
         with open(filename_input) as f:
@@ -43,8 +44,8 @@ if __name__ == '__main__':
             curFolder = folders[i]
             curIDX = idx_categories[i]
             # counting the number of frames in each video folders
-            dir_files = os.listdir(os.path.join('20bn-something-something-v2-frames', curFolder))
+            dir_files = os.listdir(os.path.join('../../dataset/20bn-something-something-v2-frames', curFolder))
             output.append('%s %d %d' % (curFolder, len(dir_files), curIDX))
-            print('%d/%d' % (i, len(folders)))
+            #print('%d/%d' % (i, len(folders)))
         with open(filename_output, 'w') as f:
             f.write('\n'.join(output))
